@@ -31,9 +31,11 @@ const run = async () => {
     };
 
     // Trigger Scale In Protection
+    console.warn(`[INFO]: Setting Scale In Protection`);
     await setScaleInProtection(true);
 
     // Run Lighthouse Report
+    console.warn(`[INFO]: Running Lighthouse Report`);
     const { Report } = await lighthouse(domain, {
       logLevel: 'verbose',
       chromeFlags: ['--headless --no-sandbox'],
@@ -44,10 +46,12 @@ const run = async () => {
     // await postToProcessingLambda(Report);
 
     console.log(JSON.stringify(Report));
-
+    
+    console.warn(`[INFO]: Deleting Message`);
     await deleteMessage(ReceiptHandle);
 
     // Remove Scale In Protection
+    console.warn(`[INFO]: Removing Scale In Protection`);
     await setScaleInProtection(false);
   }
 }
