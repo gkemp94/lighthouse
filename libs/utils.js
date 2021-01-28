@@ -1,4 +1,6 @@
 const AWS = require('aws-sdk');
+const lighthouse = require('lighthouse');
+const chromeLauncher = require('chrome-launcher');
 
 AWS.config.update({ region: 'us-east-1' });
 
@@ -49,6 +51,18 @@ const deleteMessage = async (ReceiptHandle) => {
   })
 }
 
+const runLighthouse = async (domain) => {
+  const chrome = await chromeLauncher.launch({chromeFlags: ['--headless --no-sandbox'] });
+  const { report } = await lighthouse(domain, {
+    logLevel: 'verbose',
+    chromeFlags: ['--headless --no-sandbox'],
+    skipAudits: ['full-page-screenshot', 'screenshot-thumbnails', 'final-screenshot'],
+    port: chrome.port,
+  });
+  await chrome.kill();
+  return report;
+}
+
 const sleep = (x) => new Promise((res) => setTimeout(() => res(true), x * 1000));
 
 module.exports = {
@@ -58,4 +72,5 @@ module.exports = {
   setScaleInProtection,
   getNextMessage,
   deleteMessage,
+  runLighthouse,
 }
