@@ -1,6 +1,7 @@
-const { SQS } = require('aws-sdk');
 const AWS = require('aws-sdk');
 const axios = require('axios');
+
+AWS.config.update({ region: 'us-east-1' });
 
 const autoscaling = new AWS.AutoScaling();
 const sqs = new AWS.SQS();
