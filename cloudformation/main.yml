@@ -186,10 +186,10 @@ Resources:
         UserData:
           Fn::Base64:
             Fn::Sub: '#!/bin/bash -xe
-            echo 'Hello World'
+            echo "Hello World"
             yum -y install git
-            echo 'Installed Git'
-            cd /root && git clone https://github.com/gkemp94/lighthouse
+            echo "Installed Git"
+            cd /root && git clone https://github.com/gkemp94/lighthouse.git
             REGION=${AWS::Region} SQSQUEUE=${AuditQueue} CLOUDWATCHLOGSGROUP=${CloudwatchLogs}
             bash /root/lighthouse/scripts/start.sh
             '
