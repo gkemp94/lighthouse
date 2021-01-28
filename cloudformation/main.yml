@@ -186,7 +186,9 @@ Resources:
         UserData:
           Fn::Base64:
             Fn::Sub: '#!/bin/bash -xe
+            echo 'Hello World'
             yum -y install git
+            echo 'Installed Git'
             cd /root && git clone https://github.com/gkemp94/lighthouse
             REGION=${AWS::Region} SQSQUEUE=${AuditQueue} CLOUDWATCHLOGSGROUP=${CloudwatchLogs}
             bash /root/lighthouse/scripts/start.sh
@@ -209,7 +211,7 @@ Resources:
       - AutoScalingServiceLinkedRole
     UpdatePolicy:
       AutoScalingRollingUpdate:
-        MinInstancesInSerivce: 0
+        MinInstancesInService: 0
         MaxBatchSize: 1
     Properties:
       DesiredCapacity: 1

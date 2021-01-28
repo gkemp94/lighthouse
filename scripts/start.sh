@@ -1,4 +1,5 @@
 #!/bin/bash
+
 WORKING_DIR=/root/lighthouse
 
 ## Updating Packages
