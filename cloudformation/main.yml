@@ -220,7 +220,7 @@ Resources:
     Properties:
       DesiredCapacity: 1
       MinSize: 1
-      MaxSize: 5
+      MaxSize: 1
       HealthCheckType: EC2
       MixedInstancesPolicy:
         InstancesDistribution:

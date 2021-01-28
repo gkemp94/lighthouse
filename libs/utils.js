@@ -49,6 +49,7 @@ const runLighthouse = async (domain) => {
   const { report } = await lighthouse(domain, {
     logLevel: 'error',
     chromeFlags: ['--headless', '--no-sandbox'],
+    disableStorageReset: true,
     skipAudits: ['full-page-screenshot', 'screenshot-thumbnails', 'final-screenshot'],
     port: chrome.port,
   });
