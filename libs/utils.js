@@ -48,7 +48,7 @@ const deleteMessage = async (ReceiptHandle) => {
   return sqs.deleteMessage({
     QueueUrl: SQSQUEUE,
     ReceiptHandle,
-  })
+  }).promise();
 }
 
 const runLighthouse = async (domain) => {
