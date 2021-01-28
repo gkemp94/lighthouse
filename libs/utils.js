@@ -1,11 +1,11 @@
 const AWS = require('aws-sdk');
-const axios = require('axios');
 
 AWS.config.update({ region: 'us-east-1' });
 
 const autoscaling = new AWS.AutoScaling();
 const sqs = new AWS.SQS();
 const lambda = new AWS.Lambda();
+const meta = new AWS.MetadataService();
 
 const { INSTANCE_ID, SQSQUEUE, AUTOSCALINGGROUP } = process.env;
 
@@ -25,16 +25,17 @@ const setScaleInProtection = (ProtectedFromScaleIn) => {
   }).promise();
 };
 
-const getIsPendingTermination = async () => {
-  try {
-    const { data } = await axios.get('http://169.254.169.254/latest/meta-data/spot/instance-action');
-    console.log('[TERMINATION]', data);
-    return !!data;
-  } catch (e) {
-    console.log('[TERMINATION] err:', e);
-    return false;
-  }
-}
+const getIsPendingTermination = () => new Promise((res, rej) => {
+  meta.request('/latest/meta-data/spot/instance-action', (err, data) => {
+    if (err) {
+      console.log('Termination Error:', err)
+      return rej(err);
+    } else {
+      console.log('Termination', data);
+      return res(data);
+    }
+  })
+});
 
 const postToProcessingLambda = async (Payload) => {
   return lambda.invoke({
