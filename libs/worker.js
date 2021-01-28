@@ -1,5 +1,5 @@
 
-const { getIsPendingTermination, getNextMessage, postToProcessingLambda, setScaleInProtection, sleep, deleteMessage } = require('./utils');
+const { getIsPendingTermination, getNextMessage, postToProcessingLambda, runLighthouse, setScaleInProtection, sleep, deleteMessage } = require('./utils');
 
 const run = async () => {
   while (await sleep(5)) {
