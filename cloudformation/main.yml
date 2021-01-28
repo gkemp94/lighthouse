@@ -219,8 +219,8 @@ Resources:
         MaxBatchSize: 1
     Properties:
       DesiredCapacity: 1
-      MinSize: 1
-      MaxSize: 1
+      MinSize: 0
+      MaxSize: 5
       HealthCheckType: EC2
       MixedInstancesPolicy:
         InstancesDistribution:
@@ -271,14 +271,15 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: PublicRead
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: 7
+            Status: Enabled
 
   ReportBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
       Bucket: !Ref ReportBucket
-      LifecycleConfiguration:
-        Rules:
-          - ExpirationInDays: 7
       PolicyDocument:
         Id: ReportBucketPolicy
         Version: 2012-10-17

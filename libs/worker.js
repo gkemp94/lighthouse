@@ -14,7 +14,7 @@ const run = async () => {
    
     // Validate Message
     const [{ Body, ReceiptHandle, MessageId }] = Messages;
-    const { domain, callback } = JSON.parse(Body || '{}');
+    const { domain, callback, format = 'json' } = JSON.parse(Body || '{}');
     if (!domain || !callback || !ReceiptHandle) {
       console.warn(`[WARN]: Message ${MessageId} is invalid.`);
       continue;
@@ -31,8 +31,8 @@ const run = async () => {
 
     // Run Lighthouse Report
     try {
-      const report = await runLighthouse(domain);
-      const url = await uploadReport(MessageId, report);
+      const report = await runLighthouse(domain, format);
+      const url = await uploadReport(MessageId, report, format);
       await axios.post(callback, { url, domain });
       await deleteMessage(ReceiptHandle);
     } catch (e) {

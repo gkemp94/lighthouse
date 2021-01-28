@@ -44,11 +44,12 @@ const deleteMessage = async (ReceiptHandle) => {
   }).promise();
 }
 
-const runLighthouse = async (domain) => {
+const runLighthouse = async (domain, output) => {
   const chrome = await chromeLauncher.launch({chromeFlags: ['--headless', '--no-sandbox'] });
   const { report } = await lighthouse(domain, {
     logLevel: 'error',
     chromeFlags: ['--headless --no-sandbox'],
+    output,
     skipAudits: ['full-page-screenshot', 'screenshot-thumbnails', 'final-screenshot'],
     port: chrome.port,
   });
@@ -56,15 +57,15 @@ const runLighthouse = async (domain) => {
   return JSON.parse(report);
 }
 
-const uploadReport = async (MessageId, report) => {
+const uploadReport = async (MessageId, report, format) => {
   console.log(REPORTBUCKET);
   await s3.putObject({
     Bucket: REPORTBUCKET,
-    Key: `${MessageId}.json`,
+    Key: `${MessageId}.${format}`,
     Body: JSON.stringify(report),
     ContentType: "application/json"
   }).promise();
-  return `https://${REPORTBUCKET}.s3.us-east-1.amazonaws.com/${MessageId}.json`;
+  return `https://${REPORTBUCKET}.s3.us-east-1.amazonaws.com/${MessageId}.${format}`;
 }
 
 const sleep = (x) => new Promise((res) => setTimeout(() => res(true), x * 1000));
