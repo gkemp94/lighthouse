@@ -141,7 +141,7 @@ Resources:
                   - autoscaling:SetInstanceProtection
                   - autoscaling:SetInstanceHealth
                 Resource: '*'
-        - PolicyName: AutoScalingGroupPolicy
+        - PolicyName: LogsPolicy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -185,7 +185,12 @@ Resources:
               - Arn
         UserData:
           Fn::Base64:
-            Fn::Sub: ''
+            Fn::Sub: '#!/bin/bash -xe
+            yum -y install git
+            cd /root && git clone https://github.com/gkemp94/lighthouse
+            REGION=${AWS::Region} SQSQUEUE=${AuditQueue} CLOUDWATCHLOGSGROUP=${CloudwatchLogs}
+            bash /root/lighthouse/scripts/start.sh
+            '
   
   AutoScalingServiceLinkedRole:
     Type: AWS::IAM::ServiceLinkedRole
@@ -249,7 +254,7 @@ Resources:
           Namespace: AWS/SQS
           Statistic: Sum
           Unit: Count
-        TargetValue: 1
+        TargetValue: .85
 
   CloudwatchLogs:
     Type: AWS::Logs::LogGroup

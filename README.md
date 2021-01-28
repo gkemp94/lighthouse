@@ -41,6 +41,8 @@ Used as part of the instance start up script, it installs dependencies and start
 First send a POST request to the following url
 `https://nauset.io/api/audit?url=https://hubspot.com&callback=https://api.test.com`
 
-Once the audit is complete, a POST request will be sent to your callback url with the url of your report.
+Once the audit is complete, a POST request will be sent to your callback url with the url of your report. Reports are kept for 7 days before being deleted. 
 
 
+
+Repo: https://github.com/gkemp94/lighthouse

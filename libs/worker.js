@@ -5,6 +5,7 @@
 const run = async () => {
   while (await sleep(5)) {
     console.log('[INFO] It\'s Alive');
+    console.log(process.env);
     /*
     // Recieve Messages
     const { Messages } = await getNextMessage();

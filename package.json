@@ -4,7 +4,8 @@
   "description": "Lighthouse as a service is designed to be used to",
   "main": "./libs/worker.js",
   "scripts": {
-    "deploy": "./scripts/deploy.sh"
+    "deploy": "./scripts/deploy.sh",
+    "start": "pm2 start ./libs/worker.js --log /var/log/messages"
   },
   "keywords": [],
   "author": "George Kemp <georgekemp94@gmail.com>",
@@ -12,6 +13,7 @@
   "dependencies": {
     "aws-sdk": "^2.832.0",
     "axios": "^0.21.1",
-    "lighthouse": "^7.0.1"
+    "lighthouse": "^7.0.1",
+    "pm2": "^4.5.1"
   }
 }
