@@ -5,9 +5,11 @@ const autoscaling = new AWS.AutoScaling();
 const sqs = new AWS.SQS();
 const lambda = new AWS.Lambda();
 
+const { INSTANCE_ID, SQSQUEUE, AUTOSCALINGGROUP } = process.env;
+
 const getNextMessage = () => {
   return sqs.receiveMessage({
-    QueueUrl: process.env.SQSQUEUE,
+    QueueUrl: SQSQUEUE,
     MaxNumberOfMessages: 1,
     WaitTimeSeconds: 10,
   }).promise();
@@ -15,17 +17,19 @@ const getNextMessage = () => {
 
 const setScaleInProtection = (ProtectedFromScaleIn) => {
   return autoscaling.setInstanceProtection({ 
-    AutoScalingGroupName: 'asd',
-    InstanceIds: [ 'asd' ],
+    AutoScalingGroupName: AUTOSCALINGGROUP,
+    InstanceIds: [ INSTANCE_ID ],
     ProtectedFromScaleIn,
   }).promise();
 };
 
 const getIsPendingTermination = async () => {
   try {
-    const { data } = await axios.get('https://');
+    const { data } = await axios.get('http://169.254.169.254/latest/meta-data/spot/instance-action');
+    console.log('[TERMINATION]', data);
     return !!data;
   } catch (e) {
+    console.log('[TERMINATION] err:', e);
     return false;
   }
 }
