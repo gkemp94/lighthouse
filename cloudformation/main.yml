@@ -12,6 +12,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
       AvailabilityZone: us-east-1b
       VpcId:
         Ref: VPC
@@ -20,6 +21,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.0.2.0/24
+      MapPublicIpOnLaunch: true
       AvailabilityZone: us-east-1a
       VpcId:
         Ref: VPC
@@ -186,10 +188,11 @@ Resources:
         UserData:
           Fn::Base64:
             Fn::Sub: '#!/bin/bash -xe
-            echo "Hello World"
+
             yum -y install git
-            echo "Installed Git"
+
             cd /root && git clone https://github.com/gkemp94/lighthouse.git
+
             REGION=${AWS::Region} SQSQUEUE=${AuditQueue} CLOUDWATCHLOGSGROUP=${CloudwatchLogs}
             bash /root/lighthouse/scripts/start.sh
             '

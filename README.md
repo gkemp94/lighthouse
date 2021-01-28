@@ -43,6 +43,12 @@ First send a POST request to the following url
 
 Once the audit is complete, a POST request will be sent to your callback url with the url of your report. Reports are kept for 7 days before being deleted. 
 
-
+```
+            
+            echo "Installed Git"
+            cd /root && git clone https://github.com/gkemp94/lighthouse.git
+            REGION=${AWS::Region} SQSQUEUE=${AuditQueue} CLOUDWATCHLOGSGROUP=${CloudwatchLogs}
+            bash /root/lighthouse/scripts/start.sh
+            ```
 
 Repo: https://github.com/gkemp94/lighthouse

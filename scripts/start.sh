@@ -20,6 +20,9 @@ curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
 yum install -y nodejs
 node -v
 
+## Move to Worker Directory
+cd $WORKING_DIR
+
 ## Install Dependencies
 npm install
 
