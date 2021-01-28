@@ -73,4 +73,4 @@ module.exports = {
   getNextMessage,
   deleteMessage,
   runLighthouse,
-}
+};

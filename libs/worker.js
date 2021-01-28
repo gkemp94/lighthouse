@@ -1,6 +1,5 @@
 
 const { getIsPendingTermination, getNextMessage, postToProcessingLambda, setScaleInProtection, sleep, deleteMessage } = require('./utils');
-const performance = require('perf_hooks');
 
 const run = async () => {
   while (await sleep(5)) {
@@ -35,15 +34,12 @@ const run = async () => {
 
     // Run Lighthouse Report
     console.log(`[INFO]: Running Lighthouse Report`);
-    const t0 = performance.now();
     const report = await runLighthouse(domain);
-    console.log((performance.now() - t0) / 1000);
 
     // Post Lighthouse Report to Processing Lambda
     // await postToProcessingLambda(Report);
 
     console.log(JSON.stringify(report));
-    
     
     console.warn(`[INFO]: Deleting Message`);
     await deleteMessage(ReceiptHandle);
