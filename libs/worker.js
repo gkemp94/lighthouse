@@ -1,12 +1,9 @@
 
-// const lighthouse = require('lighthouse');
-const { /*getIsPendingTermination, getNextMessage, postToProcessingLambda, setScaleInProtection,*/ sleep } = require('./utils');
+const lighthouse = require('lighthouse');
+const { getIsPendingTermination, getNextMessage, postToProcessingLambda, setScaleInProtection, sleep, deleteMessage } = require('./utils');
 
 const run = async () => {
   while (await sleep(5)) {
-    console.log('[INFO] It\'s Alive');
-    console.log(process.env);
-    /*
     // Recieve Messages
     const { Messages } = await getNextMessage();
 
@@ -16,7 +13,7 @@ const run = async () => {
       continue;
     }
    
-    console.log('[INFO] Message Recieved', JSON.stringify({  }))
+    console.log('[INFO] Message Recieved', JSON.stringify({ message: Messages[0] }))
 
     // Validate Message
     const [{ Body, ReceiptHandle, MessageId }] = Messages;
@@ -42,11 +39,14 @@ const run = async () => {
     });
 
     // Post Lighthouse Report to Processing Lambda
-    await postToProcessingLambda(Report);
+    // await postToProcessingLambda(Report);
+
+    console.log(JSON.stringify(Report));
+
+    await deleteMessage(ReceiptHandle);
 
     // Remove Scale In Protection
     await setScaleInProtection(false);
-    */
   }
 }
 

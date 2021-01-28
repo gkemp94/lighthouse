@@ -1,3 +1,4 @@
+const { SQS } = require('aws-sdk');
 const AWS = require('aws-sdk');
 const axios = require('axios');
 
@@ -41,6 +42,13 @@ const postToProcessingLambda = async (Payload) => {
   });
 }
 
+const deleteMessage = async (ReceiptHandle) => {
+  return sqs.deleteMessage({
+    QueueUrl: SQSQUEUE,
+    ReceiptHandle,
+  })
+}
+
 const sleep = (x) => new Promise((res) => setTimeout(() => res(true), x * 1000));
 
 module.exports = {
@@ -49,4 +57,5 @@ module.exports = {
   getIsPendingTermination,
   setScaleInProtection,
   getNextMessage,
+  deleteMessage,
 }
