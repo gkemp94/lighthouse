@@ -1,6 +1,7 @@
 
 const lighthouse = require('lighthouse');
 const { getIsPendingTermination, getNextMessage, postToProcessingLambda, setScaleInProtection, sleep, deleteMessage } = require('./utils');
+const performance = require('perf_hooks');
 
 const run = async () => {
   while (await sleep(5)) {
@@ -34,6 +35,7 @@ const run = async () => {
 
     // Run Lighthouse Report
     const { Report } = await lighthouse(domain, {
+      logLevel: 'verbose',
       chromeFlags: ['--headless --no-sandbox'],
       skipAudits: ['full-page-screenshot', 'screenshot-thumbnails', 'final-screenshot'],
     });
