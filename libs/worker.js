@@ -30,7 +30,7 @@ const run = async () => {
 
     // Trigger Scale In Protection
     console.log(`[INFO]: Setting Scale In Protection`);
-    await setScaleInProtection(true);
+    // await setScaleInProtection(true);
 
     // Run Lighthouse Report
     console.log(`[INFO]: Running Lighthouse Report`);
@@ -46,7 +46,7 @@ const run = async () => {
 
     // Remove Scale In Protection
     console.warn(`[INFO]: Removing Scale In Protection`);
-    await setScaleInProtection(false);
+    // await setScaleInProtection(false);
   }
 }
 
