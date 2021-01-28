@@ -276,6 +276,9 @@ Resources:
     Type: AWS::S3::BucketPolicy
     Properties:
       Bucket: !Ref ReportBucket
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: 7
       PolicyDocument:
         Id: ReportBucketPolicy
         Version: 2012-10-17
