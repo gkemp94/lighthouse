@@ -189,7 +189,7 @@ Resources:
           Fn::Base64:
             Fn::Sub: '#!/bin/bash -xe
 
-            yum -y install git
+            yum -y install git jq
 
             cd /root && git clone https://github.com/gkemp94/lighthouse.git
 

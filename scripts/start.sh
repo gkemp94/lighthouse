@@ -20,6 +20,11 @@ curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
 yum install -y nodejs
 node -v
 
+## Set Instance Id Instance Group
+export INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+export AUTOSCALINGGROUP=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=aws:autoscaling:groupName" | jq -r '.Tags[0].Value')
+
+
 ## Move to Worker Directory
 cd $WORKING_DIR
 

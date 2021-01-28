@@ -7,7 +7,7 @@ const lambda = new AWS.Lambda();
 
 const getNextMessage = () => {
   return sqs.receiveMessage({
-    QueueUrl: '',
+    QueueUrl: process.env.SQSQUEUE,
     MaxNumberOfMessages: 1,
     WaitTimeSeconds: 10,
   }).promise();
