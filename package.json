@@ -1,0 +1,17 @@
+{
+  "name": "lighthouse",
+  "version": "1.0.0",
+  "description": "Lighthouse as a service is designed to be used to",
+  "main": "./libs/worker.js",
+  "scripts": {
+    "deploy": "./scripts/deploy.sh"
+  },
+  "keywords": [],
+  "author": "George Kemp <georgekemp94@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.832.0",
+    "axios": "^0.21.1",
+    "lighthouse": "^7.0.1"
+  }
+}

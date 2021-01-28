@@ -1,0 +1,1 @@
+aws cloudformation deploy --stack-name lighthouse-service --template ./cloudformation/main.yml --capabilities CAPABILITY_NAMED_IAM
