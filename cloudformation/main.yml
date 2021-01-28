@@ -170,6 +170,7 @@ Resources:
     Type: AWS::EC2::LaunchTemplate
     DependsOn:
       - InstanceProfile
+      - ReportBucket
     Properties:
       LaunchTemplateData:
         ImageId: ami-047a51fa27710816e
@@ -193,7 +194,7 @@ Resources:
 
             cd /root && git clone https://github.com/gkemp94/lighthouse.git
 
-            REGION=${AWS::Region} SQSQUEUE=${AuditQueue} CLOUDWATCHLOGSGROUP=${CloudwatchLogs}
+            REGION=${AWS::Region} SQSQUEUE=${AuditQueue} CLOUDWATCHLOGSGROUP=${CloudwatchLogs} REPORTBUCKET=${ReportBucket}
             bash /root/lighthouse/scripts/start.sh
             '
   
@@ -265,4 +266,23 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       RetentionInDays: 7
+
+  ReportBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+
+  ReportBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ReportBucket
+      PolicyDocument:
+        Id: ReportBucketPolicy
+        Version: 2012-10-17
+        Statement: # lets the public access/view the contents of your Bucket, i.e. web app
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*' # wildcard, allow all requests
+            Action: 's3:GetObject'
+            Resource: !Join ['', ['arn:aws:s3:::', !Ref ReportBucket, /*]]
     

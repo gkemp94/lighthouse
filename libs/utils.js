@@ -6,10 +6,10 @@ AWS.config.update({ region: 'us-east-1' });
 
 const autoscaling = new AWS.AutoScaling();
 const sqs = new AWS.SQS();
-const lambda = new AWS.Lambda();
 const meta = new AWS.MetadataService();
+const s3 = new AWS.S3();
 
-const { INSTANCE_ID, SQSQUEUE, AUTOSCALINGGROUP } = process.env;
+const { INSTANCE_ID, SQSQUEUE, AUTOSCALINGGROUP, REPORTBUCKET } = process.env;
 
 const getNextMessage = () => {
   return sqs.receiveMessage({
@@ -37,13 +37,6 @@ const getIsPendingTermination = () => new Promise((res, rej) => {
   })
 });
 
-const postToProcessingLambda = async (Payload) => {
-  return lambda.invoke({
-    FunctionName: '',
-    Payload,
-  });
-}
-
 const deleteMessage = async (ReceiptHandle) => {
   return sqs.deleteMessage({
     QueueUrl: SQSQUEUE,
@@ -60,17 +53,28 @@ const runLighthouse = async (domain) => {
     port: chrome.port,
   });
   await chrome.kill();
-  return report;
+  return JSON.parse(report);
+}
+
+const uploadReport = async (MessageId, report) => {
+  console.log(REPORTBUCKET);
+  await s3.putObject({
+    Bucket: REPORTBUCKET,
+    Key: `${MessageId}.json`,
+    Body: JSON.stringify(report),
+    ContentType: "application/json"
+  }).promise();
+  return `https://${REPORTBUCKET}.s3.us-west-2.amazonaws.com/${MessageId}.json`;
 }
 
 const sleep = (x) => new Promise((res) => setTimeout(() => res(true), x * 1000));
 
 module.exports = {
   sleep,
-  postToProcessingLambda,
   getIsPendingTermination,
   setScaleInProtection,
   getNextMessage,
   deleteMessage,
   runLighthouse,
+  uploadReport,
 };

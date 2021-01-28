@@ -1,5 +1,6 @@
 
-const { getIsPendingTermination, getNextMessage, postToProcessingLambda, runLighthouse, setScaleInProtection, sleep, deleteMessage } = require('./utils');
+const axios = require('axios');
+const { getIsPendingTermination, getNextMessage, runLighthouse, setScaleInProtection, sleep, deleteMessage } = require('./utils');
 
 const run = async () => {
   while (await sleep(5)) {
@@ -8,16 +9,13 @@ const run = async () => {
 
     // Check Messages
     if (!Messages || Messages.length === 0) {
-      console.log('[INFO]: No Messages Recieved');
       continue;
     }
    
-    console.log('[INFO] Message Recieved', JSON.stringify({ message: Messages[0] }))
-
     // Validate Message
     const [{ Body, ReceiptHandle, MessageId }] = Messages;
-    const { domain, objectId } = JSON.parse(Body || '{}');
-    if (!domain || !objectId || !ReceiptHandle) {
+    const { domain, callback } = JSON.parse(Body || '{}');
+    if (!domain || !callback || !ReceiptHandle) {
       console.warn(`[WARN]: Message ${MessageId} is invalid.`);
       continue;
     };
@@ -29,25 +27,19 @@ const run = async () => {
     };
 
     // Trigger Scale In Protection
-    console.log(`[INFO]: Setting Scale In Protection`);
     await setScaleInProtection(true);
 
     // Run Lighthouse Report
     try {
-      console.log(`[INFO]: Running Lighthouse Report`);
-      const t0 = new Date().getTime();
       const report = await runLighthouse(domain);
-      console.log(`${new Date().getTime() - t0}ms`);
-  
-      console.warn(`[INFO]: Deleting Message`);
+      const url = await uploadReport(MessageId, report);
+      await axios.post(callback, { url });
       await deleteMessage(ReceiptHandle);
-
     } catch (e) {
       console.log('[Error]:', e);
     }
     
     // Remove Scale In Protection
-    console.warn(`[INFO]: Removing Scale In Protection`);
     await setScaleInProtection(false);
   }
 }
