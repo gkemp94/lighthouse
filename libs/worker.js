@@ -15,6 +15,8 @@ const run = async () => {
       console.log('[INFO]: No Messages Recieved');
       continue;
     }
+   
+    console.log('[INFO] Message Recieved', JSON.stringify({  }))
 
     // Validate Message
     const [{ Body, ReceiptHandle, MessageId }] = Messages;
