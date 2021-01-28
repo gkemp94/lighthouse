@@ -26,13 +26,11 @@ const setScaleInProtection = (ProtectedFromScaleIn) => {
 };
 
 const getIsPendingTermination = () => new Promise((res, rej) => {
-  meta.request('/latest/meta-data/spot/instance-action', (err, data) => {
+  meta.request('/latest/meta-data/spot/instance-action', (err) => {
     if (err) {
-      console.log('Termination Error:', err)
-      return rej(err);
+      return res(false);
     } else {
-      console.log('Termination', data);
-      return res(data);
+      return res(true);
     }
   })
 });
