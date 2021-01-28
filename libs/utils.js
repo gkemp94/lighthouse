@@ -64,7 +64,7 @@ const uploadReport = async (MessageId, report) => {
     Body: JSON.stringify(report),
     ContentType: "application/json"
   }).promise();
-  return `https://${REPORTBUCKET}.s3.us-west-2.amazonaws.com/${MessageId}.json`;
+  return `https://${REPORTBUCKET}.s3.us-east-1.amazonaws.com/${MessageId}.json`;
 }
 
 const sleep = (x) => new Promise((res) => setTimeout(() => res(true), x * 1000));
