@@ -13,7 +13,7 @@
   "dependencies": {
     "aws-sdk": "^2.832.0",
     "axios": "^0.21.1",
-    "lighthouse": "^7.0.1",
+    "lighthouse": "6.4.0",
     "pm2": "^4.5.1"
   }
 }
