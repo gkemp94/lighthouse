@@ -30,23 +30,25 @@ const run = async () => {
 
     // Trigger Scale In Protection
     console.log(`[INFO]: Setting Scale In Protection`);
-    // await setScaleInProtection(true);
+    await setScaleInProtection(true);
 
     // Run Lighthouse Report
-    console.log(`[INFO]: Running Lighthouse Report`);
-    const report = await runLighthouse(domain);
+    try {
+      console.log(`[INFO]: Running Lighthouse Report`);
+      const t0 = new Date().getTime();
+      const report = await runLighthouse(domain);
+      console.log(`${new Date().getTime() - t0}ms`);
+  
+      console.warn(`[INFO]: Deleting Message`);
+      await deleteMessage(ReceiptHandle);
 
-    // Post Lighthouse Report to Processing Lambda
-    // await postToProcessingLambda(Report);
-
-    console.log(JSON.stringify(report));
+    } catch (e) {
+      console.log('[Error]:', e);
+    }
     
-    console.warn(`[INFO]: Deleting Message`);
-    await deleteMessage(ReceiptHandle);
-
     // Remove Scale In Protection
     console.warn(`[INFO]: Removing Scale In Protection`);
-    // await setScaleInProtection(false);
+    await setScaleInProtection(false);
   }
 }
 

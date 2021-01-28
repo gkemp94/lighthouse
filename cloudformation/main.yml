@@ -187,7 +187,7 @@ Resources:
               - Arn
         UserData:
           Fn::Base64:
-            Fn::Sub: '#!/bin/bash -xe
+            Fn::Sub: '#!/bin/bash
 
             yum -y install git jq
 

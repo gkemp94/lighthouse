@@ -54,7 +54,7 @@ const deleteMessage = async (ReceiptHandle) => {
 const runLighthouse = async (domain) => {
   const chrome = await chromeLauncher.launch({chromeFlags: ['--headless', '--no-sandbox'] });
   const { report } = await lighthouse(domain, {
-    logLevel: 'verbose',
+    logLevel: 'error',
     chromeFlags: ['--headless --no-sandbox'],
     skipAudits: ['full-page-screenshot', 'screenshot-thumbnails', 'final-screenshot'],
     port: chrome.port,
