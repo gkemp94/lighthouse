@@ -37,7 +37,7 @@ const postToProcessingLambda = async (Payload) => {
   });
 }
 
-const sleep = (x) => new Promise((res) => setTimeout(res, x * 1000));
+const sleep = (x) => new Promise((res) => setTimeout(() => res(true), x * 1000));
 
 module.exports = {
   sleep,
