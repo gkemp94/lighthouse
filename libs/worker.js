@@ -31,10 +31,13 @@ const run = async () => {
 
     // Run Lighthouse Report
     try {
+      console.log(`[INFO]: Auditing ${domain}`);
       const report = await runLighthouse(domain);
       const url = await uploadReport(MessageId, report);
       await axios.post(callback, { url, domain });
+      console.log(`[INFO]: Sucessfully Audited ${domain}`);
       await deleteMessage(ReceiptHandle);
+      
     } catch (e) {
       console.log('[Error]:', e);
     }
