@@ -31,11 +31,11 @@ const run = async () => {
     };
 
     // Trigger Scale In Protection
-    console.warn(`[INFO]: Setting Scale In Protection`);
+    console.log(`[INFO]: Setting Scale In Protection`);
     await setScaleInProtection(true);
 
     // Run Lighthouse Report
-    console.warn(`[INFO]: Running Lighthouse Report`);
+    console.log(`[INFO]: Running Lighthouse Report`);
     const { Report } = await lighthouse(domain, {
       logLevel: 'verbose',
       chromeFlags: ['--headless --no-sandbox'],
