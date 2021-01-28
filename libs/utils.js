@@ -48,7 +48,7 @@ const runLighthouse = async (domain) => {
   const chrome = await chromeLauncher.launch({chromeFlags: ['--headless', '--no-sandbox'] });
   const { report } = await lighthouse(domain, {
     logLevel: 'error',
-    chromeFlags: ['--headless --no-sandbox'],
+    chromeFlags: ['--headless', '--no-sandbox'],
     skipAudits: ['full-page-screenshot', 'screenshot-thumbnails', 'final-screenshot'],
     port: chrome.port,
   });
@@ -57,7 +57,6 @@ const runLighthouse = async (domain) => {
 }
 
 const uploadReport = async (MessageId, report) => {
-  console.log(REPORTBUCKET);
   await s3.putObject({
     Bucket: REPORTBUCKET,
     Key: `${MessageId}.json`,
