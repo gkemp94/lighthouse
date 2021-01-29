@@ -219,7 +219,7 @@ Resources:
         MaxBatchSize: 1
     Properties:
       DesiredCapacity: 1
-      MinSize: 1
+      MinSize: 0
       MaxSize: 1
       HealthCheckType: EC2
       MixedInstancesPolicy:
