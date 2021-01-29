@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
+const slugify = require('slugify');
 
 AWS.config.update({ region: 'us-east-1' });
 
@@ -57,10 +58,10 @@ const runLighthouse = async (domain) => {
   return JSON.parse(report);
 }
 
-const uploadReport = async (MessageId, report) => {
+const uploadReport = async (domain, report) => {
   await s3.putObject({
     Bucket: REPORTBUCKET,
-    Key: `${MessageId}.json`,
+    Key: `${slugify(domain, { scrict: true })}.json`,
     Body: JSON.stringify(report),
     ContentType: "application/json"
   }).promise();

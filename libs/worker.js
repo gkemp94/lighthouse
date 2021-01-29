@@ -33,7 +33,7 @@ const run = async () => {
     try {
       console.log(`[INFO]: Auditing ${domain}`);
       const report = await runLighthouse(domain);
-      const url = await uploadReport(MessageId, report);
+      const url = await uploadReport(domain, report);
       await axios.post(callback, { url, domain });
       console.log(`[INFO]: Sucessfully Audited ${domain}`);
       await deleteMessage(ReceiptHandle);
