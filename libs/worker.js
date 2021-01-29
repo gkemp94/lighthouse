@@ -23,7 +23,7 @@ const run = async () => {
     // Check to see if we're about to be shut down
     if (await getIsPendingTermination()) {
       console.warn(`[INFO]: Worker going to sleep`);
-      await sleep(120);
+      return;
     };
 
     // Trigger Scale In Protection
