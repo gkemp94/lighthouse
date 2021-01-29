@@ -100,7 +100,7 @@ Resources:
     Properties:
       QueueName: LighthouseAuditQueue
       RedrivePolicy:
-        maxRecieveCount: 2
+        maxReceiveCount: 2
         deadLetterTargetArn:
           Fn::GetAtt:
             - AuditDeadLetterQueue

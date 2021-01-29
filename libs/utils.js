@@ -59,13 +59,14 @@ const runLighthouse = async (domain) => {
 }
 
 const uploadReport = async (domain, report) => {
+  const Key = `${slugify(domain, { scrict: true })}.json`;
   await s3.putObject({
     Bucket: REPORTBUCKET,
-    Key: `${slugify(domain, { scrict: true })}.json`,
+    Key,
     Body: JSON.stringify(report),
     ContentType: "application/json"
   }).promise();
-  return `https://${REPORTBUCKET}.s3.us-east-1.amazonaws.com/${MessageId}.json`;
+  return `https://${REPORTBUCKET}.s3.us-east-1.amazonaws.com/${Key}`;
 }
 
 const sleep = (x) => new Promise((res) => setTimeout(() => res(true), x * 1000));
