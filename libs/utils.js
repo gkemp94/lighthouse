@@ -69,10 +69,7 @@ const uploadReport = async (domain, report) => {
   return `https://${REPORTBUCKET}.s3.us-east-1.amazonaws.com/${Key}`;
 }
 
-const sleep = (x) => new Promise((res) => setTimeout(() => res(true), x * 1000));
-
 module.exports = {
-  sleep,
   getIsPendingTermination,
   setScaleInProtection,
   getNextMessage,

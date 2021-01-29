@@ -1,9 +1,9 @@
 
 const axios = require('axios');
-const { getIsPendingTermination, getNextMessage, runLighthouse, setScaleInProtection, sleep, deleteMessage, uploadReport } = require('./utils');
+const { getIsPendingTermination, getNextMessage, runLighthouse, setScaleInProtection, deleteMessage, uploadReport } = require('./utils');
 
 const run = async () => {
-  while (await sleep(5)) {
+  while (true) {
     // Recieve Messages
     const { Messages } = await getNextMessage();
 
