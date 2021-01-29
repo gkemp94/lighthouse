@@ -48,7 +48,7 @@ const runLighthouse = async (domain) => {
   const chrome = await chromeLauncher.launch({chromeFlags: ['--headless', '--no-sandbox'] });
   const { report } = await lighthouse(domain, {
     logLevel: 'verbose',
-    chromeFlags: ['--headless', '--no-sandbox'],
+    chromeFlags: ['--headless', '--no-sandbox', '--disable-dev-shm-usage'],
     disableStorageReset: true,
     skipAudits: ['full-page-screenshot', 'screenshot-thumbnails', 'final-screenshot'],
     port: chrome.port,
