@@ -45,11 +45,14 @@ const deleteMessage = async (ReceiptHandle) => {
   }).promise();
 }
 
+const chromeFlags = ['--headless', '--no-sandbox'];
+const logLevel = 'info';
+
 const runLighthouse = async (domain) => {
-  const chrome = await chromeLauncher.launch({chromeFlags: ['--headless', '--no-sandbox'] });
+  const chrome = await chromeLauncher.launch({ chromeFlags });
   const { report } = await lighthouse(domain, {
-    logLevel: 'info',
-    chromeFlags: ['--headless', '--no-sandbox'],
+    logLevel,
+    chromeFlags,
     // To Reduce Storage Costs, Don't Take Screenshots
     skipAudits: ['full-page-screenshot', 'screenshot-thumbnails', 'final-screenshot'],
     port: chrome.port,

@@ -26,8 +26,7 @@ export INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id
 echo $INSTANCE_ID
 export AUTOSCALINGGROUP=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=aws:autoscaling:groupName" | jq -r '.Tags[0].Value')
 
-
-## Move to Worker Directory
+## Move to Working Directory
 cd $WORKING_DIR
 
 ## Install Dependencies
